@@ -9,28 +9,41 @@ import Footer from './components/Footer';
 import { getSlotsForDate, calculateEndTime, MONTHS_GENITIVE } from './data/date';
 
 export default function App() {
-  // 1. Состояние отображаемого в календаре месяца/года
-  const [viewYear, setViewYear] = useState(2026);
-  const [viewMonth, setViewMonth] = useState(9); // Октябрь (0-индексировано: 9)
+  // 1. Актуальная сегодняшняя дата (динамическая, а не захардкоженная)
+  const today = useMemo(() => new Date(), []);
 
-  // 2. Фиксированная дата "сегодня" для соответствия макету Figma (8 октября 2026)
-  const today = useMemo(() => new Date(2026, 9, 8), []);
+  // 2. Состояние отображаемого в календаре месяца/года (на основе текущей даты)
+  const [viewYear, setViewYear] = useState(() => today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(() => today.getMonth());
 
-  // 3. Состояние выбранной даты
-  const [selectedYear, setSelectedYear] = useState(2026);
-  const [selectedMonth, setSelectedMonth] = useState(9);
-  const [selectedDay, setSelectedDay] = useState(16);
+  // 3. Состояние выбранной даты (по умолчанию текущая дата)
+  const [selectedYear, setSelectedYear] = useState(() => today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(() => today.getMonth());
+  const [selectedDay, setSelectedDay] = useState(() => today.getDate());
 
-  // 4. Состояние выбранного времени (по умолчанию 11:00)
-  const [selectedTime, setSelectedTime] = useState('11:00');
+  // 4. Управляемое состояние слотов времени через useState и сеттер setSlots
+  const [slots, setSlots] = useState(() =>
+    getSlotsForDate(today.getFullYear(), today.getMonth(), today.getDate())
+  );
+
+  // 5. Состояние выбранного времени (по умолчанию первый свободный слот на сегодня, либо дефолтный)
+  const [selectedTime, setSelectedTime] = useState(() => {
+    const initialSlots = getSlotsForDate(today.getFullYear(), today.getMonth(), today.getDate());
+    const availableSlot = initialSlots.find(s => s.isAvailable);
+    return availableSlot ? availableSlot.time : null;
+  });
 
   // Длительность процедуры в минутах
   const durationMinutes = 60;
 
-  // 5. Динамические слоты для выбранного дня
-  const slots = useMemo(() => {
-    return getSlotsForDate(selectedYear, selectedMonth, selectedDay);
-  }, [selectedYear, selectedMonth, selectedDay]);
+  // Функция для динамического изменения доступности слота во время работы приложения
+  const handleUpdateSlotAvailability = (time, isAvailable = false) => {
+    setSlots(prevSlots =>
+      prevSlots.map(slot =>
+        slot.time === time ? { ...slot, isAvailable } : slot
+      )
+    );
+  };
 
   // Обработчики переключения месяцев
   const handlePrevMonth = () => {
@@ -59,6 +72,9 @@ export default function App() {
 
     // ВАЖНО: сбрасываем время при смене дня, как требуется по заданию
     setSelectedTime(null);
+
+    // Обновляем управляемое состояние слотов для выбранного дня через сеттер
+    setSlots(getSlotsForDate(year, month, day));
   };
 
   // Выбор времени
@@ -78,6 +94,10 @@ export default function App() {
     alert(
       `Запись подтверждена:\n${selectedDay} ${monthName} ${selectedYear} г., ${selectedTime}–${endTime}.\nПереход к следующему шагу — «Ваши данные»!`
     );
+
+    // Динамически помечаем забронированный слот как занятый через сеттер состояния
+    handleUpdateSlotAvailability(selectedTime, false);
+    setSelectedTime(null);
   };
 
   return (
@@ -116,8 +136,10 @@ export default function App() {
               selectedMonth={selectedMonth}
               selectedDay={selectedDay}
               slots={slots}
+              setSlots={setSlots}
               selectedTime={selectedTime}
               onSelectTime={handleSelectTime}
+              onUpdateSlotAvailability={handleUpdateSlotAvailability}
             />
           </section>
 

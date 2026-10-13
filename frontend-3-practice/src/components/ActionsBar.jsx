@@ -1,5 +1,5 @@
 import React from 'react';
-import { MONTHS_GENITIVE, calculateEndTime } from '../data/date';
+import { MONTHS_GENITIVE, DAYS_OF_WEEK, calculateEndTime } from '../data/date';
 
 export default function ActionsBar({
   selectedYear,
@@ -9,12 +9,14 @@ export default function ActionsBar({
   durationMinutes = 60,
   onNext
 }) {
+  const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDay);
+  const dayOfWeek = DAYS_OF_WEEK[selectedDateObj.getDay()];
   const monthGenitive = MONTHS_GENITIVE[selectedMonth];
   const endTime = selectedTime ? calculateEndTime(selectedTime, durationMinutes) : '';
 
   const summaryText = selectedTime
-    ? `${selectedDay} ${monthGenitive} ${selectedYear} · ${selectedTime}–${endTime}`
-    : `${selectedDay} ${monthGenitive} ${selectedYear} · Выберите время`;
+    ? `${dayOfWeek}, ${selectedDay} ${monthGenitive} ${selectedYear} · ${selectedTime}–${endTime}`
+    : `${dayOfWeek}, ${selectedDay} ${monthGenitive} ${selectedYear} · Выберите время`;
 
   return (
     <section className="actions-bar">

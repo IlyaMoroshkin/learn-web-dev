@@ -7,7 +7,9 @@ export default function TimeSlots({
   selectedDay,
   slots,
   selectedTime,
-  onSelectTime
+  onSelectTime,
+  setSlots,
+  onUpdateSlotAvailability
 }) {
   const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDay);
   const dayOfWeekName = DAYS_OF_WEEK[selectedDateObj.getDay()];
