@@ -1,5 +1,3 @@
-# ── Вспомогательные классы (уже существуют в боевом коде) ──────────────────
-
 class Master:
     def __init__(self, master_id: int, name: str):
         self.master_id = master_id
@@ -37,8 +35,6 @@ def get_service(service_id: int) -> Service | None:
     return None
 
 
-# ── Задание 1. Класс Appointment ────────────────────────────────────────────
-
 class Appointment:
     def __init__(self, id: int, client_name: str, master_id: int, service_id: int, time: str):
         self.id = id
@@ -51,8 +47,6 @@ class Appointment:
 appointments = []
 
 
-# ── Задание 2. Функция create_appointment с валидацией времени ──────────────
-
 def create_appointment(
     client_name: str,
     master_id: int,
@@ -62,15 +56,12 @@ def create_appointment(
     master = get_master(master_id)
     service = get_service(service_id)
 
-    # Мастер или услуга не найдены
     if master is None or service is None:
         return None
 
-    # Задание 1: имя клиента не должно быть пустым
     if not client_name:
         return None
 
-    # Задание 2: салон работает с 08:00 до 20:00
     try:
         h, m = map(int, time.split(":"))
         total_minutes = h * 60 + m
@@ -90,46 +81,36 @@ def create_appointment(
     return appointment
 
 
-# ── Тесты Задание 1 ─────────────────────────────────────────────────────────
-
 print("=== Задание 1 ===")
 
-# Успешная запись
 a1 = create_appointment("Иван", 1, 1, "10:00")
-print(a1)              # <__main__.Appointment object ...>
-print(a1.client_name)  # Иван
-print(a1.master_id)    # 1
-print(a1.service_id)   # 1
-print(a1.time)         # 10:00
+print(a1)
+print(a1.client_name)
+print(a1.master_id)
+print(a1.service_id)
+print(a1.time)
 
-# Пустое имя — запись не создаётся
 appointments.clear()
 a2 = create_appointment("", 1, 1, "10:00")
-print(a2)              # None
-print(len(appointments))  # 0
+print(a2)
+print(len(appointments))
 
 print()
-
-# ── Тесты Задание 2 ─────────────────────────────────────────────────────────
 
 print("=== Задание 2 ===")
 
 appointments.clear()
 
-# Запись до открытия салона — None
 a3 = create_appointment("Иван", 1, 1, "00:00")
-print(a3)  # None
+print(a3)
 
-# Запись после закрытия — None
 a4 = create_appointment("Иван", 1, 1, "21:00")
-print(a4)  # None
+print(a4)
 
-# Граничное значение — 08:00 (допустимо)
 a5 = create_appointment("Иван", 1, 1, "08:00")
-print(a5.time)  # 08:00
+print(a5.time)
 
-# Граничное значение — 20:00 (допустимо)
 a6 = create_appointment("Иван", 1, 1, "20:00")
-print(a6.time)  # 20:00
+print(a6.time)
 
-print(len(appointments))  # 2
+print(len(appointments))
