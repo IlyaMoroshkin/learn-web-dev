@@ -81,8 +81,6 @@ def create_appointment(
     return appointment
 
 
-print("=== Задание 1 ===")
-
 a1 = create_appointment("Иван", 1, 1, "10:00")
 print(a1)
 print(a1.client_name)
@@ -94,10 +92,6 @@ appointments.clear()
 a2 = create_appointment("", 1, 1, "10:00")
 print(a2)
 print(len(appointments))
-
-print()
-
-print("=== Задание 2 ===")
 
 appointments.clear()
 
