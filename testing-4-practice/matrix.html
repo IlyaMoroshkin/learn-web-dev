@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<title>ÉLAIRE — матрица покрытия</title>
+<style>
+body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 70rem; padding: 0 1rem; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; vertical-align: top; border: 1px solid #a3a3a3; padding: .5rem .7rem; }
+td:first-child { white-space: nowrap; }
+.section { background: #e8eef3; }
+.gap { background: #fff0a6; }
+@media print { .gap { print-color-adjust: exact; } }
+</style>
+<h1>ÉLAIRE · Матрица покрытия</h1>
+<p>Жёлтым выделены новые требования и прежние требования, для которых понадобились отдельные проверки.</p>
+<table>
+<thead><tr><th>ID требования</th><th>Формулировка</th><th>ID теста(ов)</th></tr></thead>
+<tbody><tr class="section"><th colspan="3">Каталог</th></tr>
+<tr><td>REQ-01</td><td>Каталог показывает активные категории и число услуг в каждой</td><td>TC-01</td></tr>
+<tr><td>REQ-02</td><td>Категория показывает свои услуги с названием, описанием, длительностью и ценой</td><td>TC-02</td></tr>
+<tr><td>REQ-03</td><td>Выбранная услуга выделена, кнопка &#171;Продолжить&#187; активна только при наличии выбора</td><td>TC-03</td></tr>
+<tr><td>REQ-04</td><td>&#171;Продолжить&#187; сохраняет выбор и открывает расписание</td><td>TC-04, TC-05</td></tr>
+<tr class="section"><th colspan="3">Расписание</th></tr>
+<tr class="gap"><td>REQ-05</td><td>Календарь переключает месяцы и блокирует прошедшие даты</td><td>TC-17</td></tr>
+<tr class="gap"><td>REQ-06</td><td>Показаны только свободные слоты выбранного дня</td><td>TC-18</td></tr>
+<tr class="gap"><td>REQ-07</td><td>Отображается конец визита, рассчитанный из начала и длительности</td><td>TC-19</td></tr>
+<tr class="gap"><td>REQ-08</td><td>&#171;Далее&#187; активна только после выбора даты и свободного слота</td><td>TC-20</td></tr>
+<tr class="gap"><td>REQ-13</td><td>При смене мастера обновляются слоты, вариант &#171;Любой специалист&#187; учитывает доступных квалифицированных мастеров</td><td>TC-18, TC-21</td></tr>
+<tr class="gap"><td>REQ-14</td><td>При отсутствии слотов клиент видит сообщение и может выбрать другую дату или мастера, сохраняя услугу</td><td>TC-22</td></tr>
+<tr class="section"><th colspan="3">Подтверждение</th></tr>
+<tr class="gap"><td>REQ-09</td><td>До отправки сводка показывает услугу, мастера, дату, время и стоимость</td><td>TC-23</td></tr>
+<tr><td>REQ-10</td><td>При пустых или некорректных обязательных полях запись блокируется</td><td>TC-06, TC-09–TC-16</td></tr>
+<tr><td>REQ-11</td><td>При успехе запись сохраняется, отображаются номер и детали, слот становится недоступен</td><td>TC-05</td></tr>
+<tr class="gap"><td>REQ-12</td><td>Пока запрос обрабатывается, виден индикатор и повторная отправка заблокирована</td><td>TC-24</td></tr>
+<tr class="gap"><td>REQ-15</td><td>Имя содержит от 2 до 40 букв кириллицы</td><td>TC-12–TC-14</td></tr>
+<tr class="gap"><td>REQ-16</td><td>Телефон имеет формат российского мобильного номера</td><td>TC-09–TC-11, TC-15, TC-16</td></tr>
+<tr class="gap"><td>REQ-17</td><td>Комментарий необязателен, введённый комментарий передаётся вместе с записью</td><td>TC-25</td></tr>
+<tr class="gap"><td>REQ-18</td><td>При конфликте запись не дублируется, клиент может выбрать другой слот без потери услуги и мастера</td><td>TC-26</td></tr>
+<tr class="gap"><td>REQ-19</td><td>После сетевого сбоя или ошибки сервера форма сохраняется и доступна повторная попытка</td><td>TC-27</td></tr>
+</tbody></table></html>
